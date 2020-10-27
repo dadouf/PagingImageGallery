@@ -9,13 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PagingImageGallery">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".PortalActivity"
+            android:label="Paging Image Gallery: Portal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".recyclerview.v1.GalleryActivity"
+            android:label="RecyclerView v1" />
+        <activity
+            android:name=".viewpager.v1.GalleryActivity"
+            android:label="ViewPager v1" />
     </application>
 
 </manifest>
