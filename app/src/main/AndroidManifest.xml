@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.davidferrand.pagingimagegallery">
 
+    <!-- Glide -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PagingImageGallery">
         <activity
-            android:name=".PortalActivity"
+            android:name=".GridActivity"
             android:label="Paging Image Gallery: Portal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".recyclerview.v1.GalleryActivity"
+            android:name=".recyclerview.v1.DetailActivity"
             android:label="RecyclerView v1" />
         <activity
-            android:name=".viewpager.v1.GalleryActivity"
+            android:name=".viewpager.v1.DetailActivity"
             android:label="ViewPager v1" />
     </application>
-
 </manifest>
