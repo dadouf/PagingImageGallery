@@ -41,6 +41,9 @@
             android:name=".recyclerview.v1.CarouselActivity"
             android:label="RecyclerView v1" />
         <activity
+            android:name=".recyclerview.v1width.CarouselActivity"
+            android:label="RecyclerView v1" />
+        <activity
             android:name=".recyclerview.v0.CarouselActivity"
             android:label="RecyclerView v0" />
         <activity
