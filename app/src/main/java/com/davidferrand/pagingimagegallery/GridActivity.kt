@@ -122,7 +122,10 @@ class GridSpacingDecoration(
         val spanIndex = lm.spanSizeLookup.getSpanIndex(itemPosition, spanCount)
 
         val isTopRow = itemPosition < spanCount
-        val isBottomRow = itemPosition >= itemCount - (itemCount % spanCount)
+
+        val bottomRowIsComplete = itemCount % spanCount == 0
+        val isBottomRow =
+            if (bottomRowIsComplete) itemPosition >= itemCount - spanCount else itemPosition >= itemCount - (itemCount % spanCount)
 
         outRect.top = if (isTopRow) spacing else spacing / 2
         outRect.bottom = if (isBottomRow) spacing else spacing / 2
