@@ -20,9 +20,9 @@ import kotlin.math.roundToInt
 class CarouselActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCarouselRecyclerviewBinding
 
-    private lateinit var snapHelper: PageByPageSnapHelper
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapter: CarouselAdapter
+    private lateinit var snapHelper: PageByPageSnapHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

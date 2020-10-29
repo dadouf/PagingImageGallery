@@ -31,9 +31,9 @@ import kotlin.math.sign
 class CarouselActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCarouselRecyclerviewBinding
 
-    private lateinit var snapHelper: PageByPageSnapHelper
     private lateinit var layoutManager: ProminentLinearLayoutManager
     private lateinit var adapter: CarouselAdapter
+    private lateinit var snapHelper: PageByPageSnapHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
