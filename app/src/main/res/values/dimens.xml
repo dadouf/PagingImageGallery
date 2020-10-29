@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="carousel_margin_horizontal_observed">56dp</dimen>
-    <!-- TODO we can improve this to be dynamic, maybe? -->
-    <dimen name="carousel_margin_horizontal_actual">112dp</dimen>
-    <dimen name="carousel_horizontal_spacing">10dp</dimen>
+    <dimen name="grid_spacing">8dp</dimen>
+    <dimen name="carousel_spacing">16dp</dimen>
+    <dimen name="carousel_horizontal_padding_observed">56dp</dimen>
 </resources>

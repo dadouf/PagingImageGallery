@@ -8,9 +8,6 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingStart="@dimen/carousel_margin_horizontal_actual"
-        android:paddingEnd="@dimen/carousel_margin_horizontal_actual"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_grid_image"
         tools:orientation="horizontal" />

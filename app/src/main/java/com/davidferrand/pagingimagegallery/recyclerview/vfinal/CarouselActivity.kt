@@ -57,7 +57,7 @@ class CarouselActivity : AppCompatActivity() {
             layoutManager = this@CarouselActivity.layoutManager
             adapter = this@CarouselActivity.adapter
 
-            val spacing = resources.getDimensionPixelSize(R.dimen.carousel_horizontal_spacing)
+            val spacing = resources.getDimensionPixelSize(R.dimen.carousel_spacing)
             addItemDecoration(
                 LinearHorizontalSpacingDecoration(
                     innerSpacing = spacing,
@@ -68,25 +68,31 @@ class CarouselActivity : AppCompatActivity() {
 
         snapHelper.attachToRecyclerView(binding.recyclerView)
 
-        scrollToPositionCentered(position)
+        initRecyclerViewPaddingAndPosition(position)
     }
 
-    private fun scrollToPositionCentered(initialPosition: Int) {
-        // offsetToLeftEdge is the amount to align the image with the left edge of the RecyclerView
-        val offsetToLeftEdge =
-            -resources.getDimensionPixelSize(R.dimen.carousel_horizontal_spacing) / 2 - resources.getDimensionPixelSize(
-                R.dimen.carousel_margin_horizontal_actual
-            )
-        layoutManager.scrollToPositionWithOffset(initialPosition, offsetToLeftEdge)
+    private fun initRecyclerViewPaddingAndPosition(initialPosition: Int) {
+        // This initial scroll will be slightly off, but do it so that the target view
+        // at [initialPosition] is at least laid out
+        layoutManager.scrollToPosition(initialPosition)
 
-        // In order to center the image, we need to wait for it to be measured and then adjust the offset
+        // Once the recyclerView and the target view are laid out, we can:
         binding.recyclerView.doOnPreDraw {
+            // 1. Set enough padding left/right so that the first and last items can be centered
+            val enoughPadding = binding.recyclerView.width / 2
+            binding.recyclerView.setPadding(enoughPadding, 0, enoughPadding, 0)
+            binding.recyclerView.clipToPadding = false
+
+            // 2. Scroll to center the target view
             val targetView = layoutManager.findViewByPosition(initialPosition) ?: return@doOnPreDraw
-            val offsetToCenter = (binding.recyclerView.width - targetView.width) / 2
+
+            val leftDecorationWidth = layoutManager.getLeftDecorationWidth(targetView)
+            val offsetFromCurrentToLeftEdge = -leftDecorationWidth - enoughPadding
+            val offsetFromLeftEdgeToCenter = (binding.recyclerView.width - targetView.width) / 2
 
             layoutManager.scrollToPositionWithOffset(
                 initialPosition,
-                offsetToLeftEdge + offsetToCenter
+                offsetFromCurrentToLeftEdge + offsetFromLeftEdgeToCenter
             )
         }
 
@@ -136,7 +142,7 @@ internal class CarouselAdapter(private val images: List<Image>) :
 
     private fun initParentDimensions(parent: ViewGroup) {
         maxImageWidth =
-            parent.width - parent.resources.getDimensionPixelSize(R.dimen.carousel_margin_horizontal_observed) * 2
+            parent.width - parent.resources.getDimensionPixelSize(R.dimen.carousel_horizontal_padding_observed) * 2
         maxImageHeight = parent.height
 
         maxImageAspectRatio = maxImageWidth.toFloat() / maxImageHeight

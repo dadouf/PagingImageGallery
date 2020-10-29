@@ -66,9 +66,7 @@ class GridActivity : AppCompatActivity() {
         with(binding.recyclerView) {
             layoutManager = GridLayoutManager(this@GridActivity, 5)
             addItemDecoration(
-                GridSpacingDecoration(
-                    resources.getDimensionPixelSize(R.dimen.carousel_horizontal_spacing)
-                )
+                GridSpacingDecoration(resources.getDimensionPixelSize(R.dimen.grid_spacing))
             )
 
             reloadImages()
