@@ -153,31 +153,29 @@ internal class CarouselAdapter(private val images: List<Image>) :
     override fun onBindViewHolder(vh: VH, position: Int) {
         val image = images[position]
 
-        vh.imageView.let {
-            val imageAspectRatio = image.aspectRatio
+        val imageAspectRatio = image.aspectRatio
 
-            val targetImageWidth: Int
-            val targetImageHeight: Int
-            if (imageAspectRatio < maxImageAspectRatio) {
-                // Tall image: height = max
-                targetImageWidth = (maxImageHeight * imageAspectRatio).roundToInt()
-                targetImageHeight = maxImageHeight
-            } else {
-                // Wide image: width = max
-                targetImageWidth = maxImageWidth
-                targetImageHeight = (maxImageWidth / imageAspectRatio).roundToInt()
-            }
-
-            it.layoutParams = RecyclerView.LayoutParams(
-                targetImageWidth,
-                targetImageHeight
-            ).apply {
-                // The topMargin acts as a center_vertical gravity
-                topMargin = (maxImageHeight - (targetImageHeight)) / 2
-            }
-
-            vh.imageView.image = image
+        val targetImageWidth: Int
+        val targetImageHeight: Int
+        if (imageAspectRatio < maxImageAspectRatio) {
+            // Tall image: height = max
+            targetImageWidth = (maxImageHeight * imageAspectRatio).roundToInt()
+            targetImageHeight = maxImageHeight
+        } else {
+            // Wide image: width = max
+            targetImageWidth = maxImageWidth
+            targetImageHeight = (maxImageWidth / imageAspectRatio).roundToInt()
         }
+
+        vh.imageView.layoutParams = RecyclerView.LayoutParams(
+            targetImageWidth,
+            targetImageHeight
+        ).apply {
+            // The topMargin acts as a center_vertical gravity
+            topMargin = (maxImageHeight - (targetImageHeight)) / 2
+        }
+
+        vh.imageView.image = image
     }
 
     override fun getItemCount(): Int = images.size

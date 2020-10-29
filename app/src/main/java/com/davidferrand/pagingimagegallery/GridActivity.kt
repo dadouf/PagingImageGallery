@@ -41,6 +41,14 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.v3.CarouselActivity::class.java
         ),
         CarouselImplementation(
+            "RecyclerView v2",
+            com.davidferrand.pagingimagegallery.recyclerview.v2.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "RecyclerView v0: naive implementation, no paging",
+            com.davidferrand.pagingimagegallery.recyclerview.v0.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
             "ViewPager v1",
             com.davidferrand.pagingimagegallery.viewpager.v1.CarouselActivity::class.java
         ),

@@ -1,6 +1,5 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v5
+package com.davidferrand.pagingimagegallery.recyclerview.v2
 
-import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -17,16 +15,13 @@ import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
 import com.davidferrand.pagingimagegallery.R
 import com.davidferrand.pagingimagegallery.databinding.ActivityCarouselRecyclerviewBinding
-import kotlin.math.abs
-import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlin.math.sign
 
 class CarouselActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCarouselRecyclerviewBinding
 
     private lateinit var snapHelper: PageByPageSnapHelper
-    private lateinit var layoutManager: ProminentLinearLayoutManager
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapter: CarouselAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +31,11 @@ class CarouselActivity : AppCompatActivity() {
 
         val images: ArrayList<Image> =
             intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
-        val position: Int = intent.getIntExtra(GridActivity.EXTRA_POSITION, 0)
 
-        layoutManager = ProminentLinearLayoutManager(
-            context = this,
-            shrinkDistance = 1.5f,
-            shrinkAmount = 0.5f
+        layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
         )
         adapter = CarouselAdapter(images)
         snapHelper = PageByPageSnapHelper()
@@ -61,38 +55,6 @@ class CarouselActivity : AppCompatActivity() {
         }
 
         snapHelper.attachToRecyclerView(binding.recyclerView)
-
-        initRecyclerViewPaddingAndPosition(position)
-    }
-
-    private fun initRecyclerViewPaddingAndPosition(initialPosition: Int) {
-        // This initial scroll will be slightly off, but do it so that the target view
-        // at [initialPosition] is at least laid out
-        layoutManager.scrollToPosition(initialPosition)
-
-        // Once the recyclerView and the target view are laid out, we can:
-        binding.recyclerView.doOnPreDraw {
-            // 1. Set enough padding left/right so that the first and last items can be centered
-            val enoughPadding = binding.recyclerView.width / 2
-            binding.recyclerView.setPadding(enoughPadding, 0, enoughPadding, 0)
-            binding.recyclerView.clipToPadding = false
-
-            // 2. Scroll to center the target view
-            val targetView = layoutManager.findViewByPosition(initialPosition) ?: return@doOnPreDraw
-
-            val leftDecorationWidth = layoutManager.getLeftDecorationWidth(targetView)
-            val offsetFromCurrentToLeftEdge = -leftDecorationWidth - enoughPadding
-            val offsetFromLeftEdgeToCenter = (binding.recyclerView.width - targetView.width) / 2
-
-            layoutManager.scrollToPositionWithOffset(
-                initialPosition,
-                offsetFromCurrentToLeftEdge + offsetFromLeftEdgeToCenter
-            )
-        }
-
-        // The scroll listener in the SnapHelper will not get called for a simple
-        // scrollToPositionWithOffset() so we need to initialize it manually
-        snapHelper.snappedPosition = initialPosition
     }
 }
 
@@ -131,7 +93,9 @@ internal class CarouselAdapter(private val images: List<Image>) :
             initParentDimensions(parent)
         }
 
-        return VH(ImageView(parent.context))
+        return VH(ImageView(parent.context).apply {
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        })
     }
 
     private fun initParentDimensions(parent: ViewGroup) {
@@ -166,7 +130,7 @@ internal class CarouselAdapter(private val images: List<Image>) :
             targetImageHeight
         ).apply {
             // The topMargin acts as a center_vertical gravity
-            topMargin = (maxImageHeight - (targetImageHeight)) / 2
+//                topMargin = (maxImageHeight - (targetImageHeight)) / 2
         }
 
         Glide.with(vh.imageView).load(image.url).into(vh.imageView)
@@ -175,73 +139,6 @@ internal class CarouselAdapter(private val images: List<Image>) :
     override fun getItemCount(): Int = images.size
 
     class VH(val imageView: ImageView) : RecyclerView.ViewHolder(imageView)
-}
-
-
-/**
- * Arranges items so that the central one appears prominent: its neighbors are scaled down.
- * Based on https://stackoverflow.com/a/54516315/2291104
- */
-internal class ProminentLinearLayoutManager(
-    context: Context,
-    private val shrinkDistance: Float = 0.9f,
-    private val shrinkAmount: Float = 0.15f
-) : LinearLayoutManager(context, HORIZONTAL, false) {
-
-    override fun onLayoutCompleted(state: RecyclerView.State?) {
-        super.onLayoutCompleted(state)
-        scaleChildren()
-    }
-
-    override fun scrollHorizontallyBy(
-        dx: Int,
-        recycler: RecyclerView.Recycler,
-        state: RecyclerView.State
-    ): Int {
-        return if (orientation == HORIZONTAL) {
-            super.scrollHorizontallyBy(dx, recycler, state).also { scaleChildren() }
-        } else {
-            0
-        }
-    }
-
-    private fun scaleChildren() {
-        val midpoint = width / 2f
-        val d1 = shrinkDistance * midpoint
-
-        var translationXForward = 0f
-
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)!!
-            val centeredChildPos =
-                (getDecoratedRight(child) + getDecoratedLeft(child)) / 2f - midpoint
-
-            val d = min(d1, abs(centeredChildPos))
-            val scale = 1f - shrinkAmount * d / d1
-
-            child.scaleX = scale
-            child.scaleY = scale
-
-            val translationXFromScale = -centeredChildPos.sign * child.width * (1 - scale) / 2f
-            child.translationX = translationXForward + translationXFromScale
-
-            translationXForward = 0f
-
-            // Keep items stuck together even if they're scaled down
-            if (translationXFromScale > 0 && i >= 1) {
-                // Adjust translationX of previous item directly
-                getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
-            } else if (translationXFromScale < 0) {
-                // Adjust translationX of next item by passing it forward into [translationXForward]
-                translationXForward = 2 * translationXFromScale
-            }
-        }
-    }
-
-    override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
-        // Since we're scaling down items, we need to pre-load more of them offscreen
-        return (width / (1 - shrinkAmount)).roundToInt()
-    }
 }
 
 /**
