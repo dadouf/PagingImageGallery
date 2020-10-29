@@ -11,8 +11,8 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:gravity="center"
-        android:text="DetailActivity implementation:"
+        android:gravity="center_vertical"
+        android:text="Carousel\nimplementation:"
         app:layout_constraintBottom_toBottomOf="@id/detail_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,8 +34,9 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detail_selector"
-        tools:context=".GridActivity"
-        tools:listitem="@layout/item_portal_launcher">
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/item_grid_image"
+        tools:spanCount="5">
 
     </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

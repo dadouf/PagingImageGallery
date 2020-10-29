@@ -1,5 +1,8 @@
 package com.davidferrand.pagingimagegallery
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 object Data {
     val images = listOf(
         Image("https://media2.giphy.com/media/ZEBoAmoK5NVNso29xo/200.gif", 356, 200),
@@ -30,8 +33,11 @@ object Data {
     )
 }
 
+@Parcelize
 data class Image(
     val url: String,
     val width: Int,
     val height: Int
-)
+) : Parcelable {
+    val aspectRatio: Float = width.toFloat() / height.toFloat()
+}

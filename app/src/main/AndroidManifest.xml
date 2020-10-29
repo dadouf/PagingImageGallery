@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".recyclerview.v1.DetailActivity"
-            android:label="RecyclerView v1" />
+            android:name=".recyclerview.vfinal.CarouselActivity"
+            android:label="RecyclerView vfinal" />
         <activity
-            android:name=".viewpager.v1.DetailActivity"
+            android:name=".viewpager.v1.CarouselActivity"
             android:label="ViewPager v1" />
     </application>
 </manifest>
