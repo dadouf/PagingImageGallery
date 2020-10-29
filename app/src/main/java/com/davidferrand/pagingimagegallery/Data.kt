@@ -39,5 +39,5 @@ data class Image(
     val width: Int,
     val height: Int
 ) : Parcelable {
-    val aspectRatio: Float = width.toFloat() / height.toFloat()
+    val aspectRatio: Float get() = width.toFloat() / height.toFloat()
 }
