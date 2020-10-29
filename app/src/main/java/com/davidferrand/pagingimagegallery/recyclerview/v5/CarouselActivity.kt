@@ -1,19 +1,14 @@
-package com.davidferrand.pagingimagegallery.recyclerview.vfinal
+package com.davidferrand.pagingimagegallery.recyclerview.v5
 
-import android.animation.LayoutTransition
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +17,6 @@ import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
 import com.davidferrand.pagingimagegallery.R
 import com.davidferrand.pagingimagegallery.databinding.ActivityCarouselRecyclerviewBinding
-import com.davidferrand.pagingimagegallery.databinding.OverlayableImageViewBinding
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -137,7 +131,7 @@ internal class CarouselAdapter(private val images: List<Image>) :
             initParentDimensions(parent)
         }
 
-        return VH(OverlayableImageView(parent.context))
+        return VH(ImageView(parent.context))
     }
 
     private fun initParentDimensions(parent: ViewGroup) {
@@ -176,13 +170,13 @@ internal class CarouselAdapter(private val images: List<Image>) :
                 topMargin = (maxImageHeight - (targetImageHeight)) / 2
             }
 
-            vh.imageView.image = image
+            Glide.with(vh.imageView).load(image.url).into(vh.imageView)
         }
     }
 
     override fun getItemCount(): Int = images.size
 
-    class VH(val imageView: OverlayableImageView) : RecyclerView.ViewHolder(imageView)
+    class VH(val imageView: ImageView) : RecyclerView.ViewHolder(imageView)
 }
 
 
@@ -195,9 +189,6 @@ internal class ProminentLinearLayoutManager(
     private val shrinkDistance: Float = 0.9f,
     private val shrinkAmount: Float = 0.15f
 ) : LinearLayoutManager(context, HORIZONTAL, false) {
-
-    /** Above this threshold, a view is considered [ProminentableView.isProminent] */
-    private val centralViewScaleThreshold = 1f - shrinkAmount / 4
 
     override fun onLayoutCompleted(state: RecyclerView.State?) {
         super.onLayoutCompleted(state)
@@ -233,8 +224,6 @@ internal class ProminentLinearLayoutManager(
             child.scaleX = scale
             child.scaleY = scale
 
-            (child as? ProminentableView)?.isProminent = scale > centralViewScaleThreshold
-
             val translationXFromScale = -centeredChildPos.sign * child.width * (1 - scale) / 2f
             child.translationX = translationXForward + translationXFromScale
 
@@ -254,14 +243,6 @@ internal class ProminentLinearLayoutManager(
     override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
         // Since we're scaling down items, we need to pre-load more of them offscreen
         return (width / (1 - shrinkAmount)).roundToInt()
-    }
-
-    /**
-     * Children of the RecyclerView that implement this interface get notified by the LayoutManager
-     * when they come in and out of prominence (the threshold depends on [shrinkAmount]).
-     */
-    interface ProminentableView {
-        var isProminent: Boolean
     }
 }
 
@@ -333,48 +314,6 @@ internal class PageByPageSnapHelper : PagerSnapHelper() {
             snappedPosition + 1
         } else {
             snappedPosition - 1
-        }
-    }
-}
-
-class OverlayableImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr), ProminentLinearLayoutManager.ProminentableView {
-
-    private val binding = OverlayableImageViewBinding.inflate(LayoutInflater.from(context), this)
-
-    var image: Image? = null
-        set(value) {
-            field = value
-
-            if (value != null) {
-                Glide.with(this).load(value.url).into(binding.imageView)
-            } else {
-                Glide.with(this).clear(this)
-            }
-        }
-
-    override var isProminent: Boolean = false
-        set(value) {
-            field = value
-            binding.sendButton.isInvisible = !value // changes between VISIBLE and INVISIBLE
-        }
-
-    init {
-        layoutTransition = LayoutTransition() // android:animateLayoutChanges
-
-        binding.sendButton.setOnClickListener {
-            image?.let {
-                val sendIntent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, it.url)
-                    type = "text/plain"
-                }
-
-                context.startActivity(sendIntent)
-            }
         }
     }
 }
