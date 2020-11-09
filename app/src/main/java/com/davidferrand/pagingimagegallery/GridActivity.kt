@@ -49,6 +49,10 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.v1.CarouselActivity::class.java
         ),
         CarouselImplementation(
+            "RecyclerView v3-alpha1: add shrink/grow",
+            com.davidferrand.pagingimagegallery.recyclerview.v3alpha1.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
             "RecyclerView v2: paging",
             com.davidferrand.pagingimagegallery.recyclerview.v2paging.CarouselActivity::class.java
         ),
