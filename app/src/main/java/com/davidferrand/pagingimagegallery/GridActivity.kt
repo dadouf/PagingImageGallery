@@ -25,49 +25,29 @@ class GridActivity : AppCompatActivity() {
 
     private val implementations = listOf(
         CarouselImplementation(
-            "RecyclerView vfinal",
+            "vfinal",
             com.davidferrand.pagingimagegallery.recyclerview.vfinal.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v5",
-            com.davidferrand.pagingimagegallery.recyclerview.v5.CarouselActivity::class.java
+            "v3-alpha2: maintain spacing",
+            com.davidferrand.pagingimagegallery.recyclerview.v3alpha2.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v4",
-            com.davidferrand.pagingimagegallery.recyclerview.v4.CarouselActivity::class.java
-        ),
-        CarouselImplementation(
-            "RecyclerView v3",
-            com.davidferrand.pagingimagegallery.recyclerview.v3.CarouselActivity::class.java
-        ),
-        CarouselImplementation(
-            "RecyclerView v2",
-            com.davidferrand.pagingimagegallery.recyclerview.v2.CarouselActivity::class.java
-        ),
-        CarouselImplementation(
-            "RecyclerView v1",
-            com.davidferrand.pagingimagegallery.recyclerview.v1.CarouselActivity::class.java
-        ),
-        CarouselImplementation(
-            "RecyclerView v3-alpha1: add shrink/grow",
+            "v3-alpha1: add shrink/grow animation",
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v2: paging",
-            com.davidferrand.pagingimagegallery.recyclerview.v2paging.CarouselActivity::class.java
+            "v2: paging",
+            com.davidferrand.pagingimagegallery.recyclerview.v2final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v1: aspect ratio",
-            com.davidferrand.pagingimagegallery.recyclerview.v1width.CarouselActivity::class.java
+            "v1: aspect ratio",
+            com.davidferrand.pagingimagegallery.recyclerview.v1final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v0: naive implementation",
+            "v0: naive implementation",
             com.davidferrand.pagingimagegallery.recyclerview.v0.CarouselActivity::class.java
-        ),
-        CarouselImplementation(
-            "ViewPager v1",
-            com.davidferrand.pagingimagegallery.viewpager.v1.CarouselActivity::class.java
-        ),
+        )
     )
     private var selectedImplementation: CarouselImplementation =
         implementations[0]

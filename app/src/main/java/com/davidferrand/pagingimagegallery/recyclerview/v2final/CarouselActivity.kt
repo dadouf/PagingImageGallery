@@ -1,4 +1,4 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v1width
+package com.davidferrand.pagingimagegallery.recyclerview.v2final
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import androidx.recyclerview.widget.SnapHelper
 import com.bumptech.glide.Glide
 import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
@@ -16,11 +20,13 @@ import com.davidferrand.pagingimagegallery.R
 import com.davidferrand.pagingimagegallery.databinding.ActivityCarouselRecyclerviewBinding
 import kotlin.math.roundToInt
 
+
 class CarouselActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCarouselRecyclerviewBinding
 
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapter: CarouselAdapter
+    private lateinit var snapHelper: SnapHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,7 @@ class CarouselActivity : AppCompatActivity() {
 
         val images: ArrayList<Image> =
             intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
+        val position: Int = intent.getIntExtra(GridActivity.EXTRA_POSITION, 0)
 
         layoutManager = LinearLayoutManager(
             this,
@@ -36,6 +43,7 @@ class CarouselActivity : AppCompatActivity() {
             false
         )
         adapter = CarouselAdapter(images)
+        snapHelper = PagerSnapHelper()
 
         with(binding.recyclerView) {
             layoutManager = this@CarouselActivity.layoutManager
@@ -43,6 +51,26 @@ class CarouselActivity : AppCompatActivity() {
 
             val spacing = resources.getDimensionPixelSize(R.dimen.carousel_spacing)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
+            addItemDecoration(BoundsOffsetDecoration())
+        }
+
+        snapHelper.attachToRecyclerView(binding.recyclerView)
+
+        initRecyclerViewPosition(position)
+    }
+
+    private fun initRecyclerViewPosition(position: Int) {
+        // This initial scroll will be slightly off because it doesn't respect the SnapHelper.
+        // Do it anyway so that the target view is laid out, then adjust onPreDraw.
+        layoutManager.scrollToPosition(position)
+
+        binding.recyclerView.doOnPreDraw {
+            val targetView = layoutManager.findViewByPosition(position) ?: return@doOnPreDraw
+            val distanceToFinalSnap =
+                snapHelper.calculateDistanceToFinalSnap(layoutManager, targetView)
+                    ?: return@doOnPreDraw
+
+            layoutManager.scrollToPositionWithOffset(position, -distanceToFinalSnap[0])
         }
     }
 }
@@ -63,6 +91,30 @@ class LinearHorizontalSpacingDecoration(@Px private val innerSpacing: Int) :
 
         outRect.left = if (itemPosition == 0) 0 else innerSpacing / 2
         outRect.right = if (itemPosition == state.itemCount - 1) 0 else innerSpacing / 2
+    }
+}
+
+/** Offset the first and last items to center them */
+class BoundsOffsetDecoration : ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+
+        val itemPosition = parent.getChildAdapterPosition(view)
+
+        // It is crucial to refer to layoutParams.width (view.width is 0 at this time)!
+        val itemWidth = view.layoutParams.width
+        val offset = (parent.width - itemWidth) / 2
+
+        if (itemPosition == 0) {
+            outRect.left = offset
+        } else if (itemPosition == state.itemCount - 1) {
+            outRect.right = offset
+        }
     }
 }
 

@@ -24,36 +24,21 @@
         </activity>
         <activity
             android:name=".recyclerview.vfinal.CarouselActivity"
-            android:label="RecyclerView vfinal" />
+            android:label="vfinal" />
         <activity
-            android:name=".recyclerview.v5.CarouselActivity"
-            android:label="RecyclerView v5" />
-        <activity
-            android:name=".recyclerview.v4.CarouselActivity"
-            android:label="RecyclerView v4" />
-        <activity
-            android:name=".recyclerview.v3.CarouselActivity"
-            android:label="RecyclerView v3" />
-        <activity
-            android:name=".recyclerview.v2.CarouselActivity"
-            android:label="RecyclerView v2" />
-        <activity
-            android:name=".recyclerview.v1.CarouselActivity"
-            android:label="RecyclerView v1" />
+            android:name=".recyclerview.v3alpha2.CarouselActivity"
+            android:label="v3: maintain spacing" />
         <activity
             android:name=".recyclerview.v3alpha1.CarouselActivity"
-            android:label="RecyclerView v3: shrink/grow" />
+            android:label="v3: shrink/grow" />
         <activity
-            android:name=".recyclerview.v2paging.CarouselActivity"
-            android:label="RecyclerView v2: paging" />
+            android:name=".recyclerview.v2final.CarouselActivity"
+            android:label="v2: paging" />
         <activity
-            android:name=".recyclerview.v1width.CarouselActivity"
-            android:label="RecyclerView v1: aspect ratio" />
+            android:name=".recyclerview.v1final.CarouselActivity"
+            android:label="v1: aspect ratio" />
         <activity
             android:name=".recyclerview.v0.CarouselActivity"
-            android:label="RecyclerView v0" />
-        <activity
-            android:name=".viewpager.v1.CarouselActivity"
-            android:label="ViewPager v1" />
+            android:label="v0" />
     </application>
 </manifest>
