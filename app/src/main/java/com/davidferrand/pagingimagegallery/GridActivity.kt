@@ -45,11 +45,15 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.v2.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v1: paging",
+            "RecyclerView v1",
             com.davidferrand.pagingimagegallery.recyclerview.v1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "RecyclerView v1: show neighbors",
+            "RecyclerView v2: paging",
+            com.davidferrand.pagingimagegallery.recyclerview.v2paging.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "RecyclerView v1: aspect ratio",
             com.davidferrand.pagingimagegallery.recyclerview.v1width.CarouselActivity::class.java
         ),
         CarouselImplementation(

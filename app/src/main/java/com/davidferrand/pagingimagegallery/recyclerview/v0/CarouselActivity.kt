@@ -37,39 +37,31 @@ class CarouselActivity : AppCompatActivity() {
         adapter = CarouselAdapter(images)
 
         with(binding.recyclerView) {
-            setItemViewCacheSize(4)
             layoutManager = this@CarouselActivity.layoutManager
             adapter = this@CarouselActivity.adapter
 
             val spacing = resources.getDimensionPixelSize(R.dimen.carousel_spacing)
-            addItemDecoration(
-                LinearHorizontalSpacingDecoration(
-                    innerSpacing = spacing,
-                    outerSpacing = spacing / 2 // we need it balanced
-                )
-            )
+            addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
         }
     }
 }
 
 /** Works best with a [LinearLayoutManager] in [LinearLayoutManager.HORIZONTAL] orientation */
-class LinearHorizontalSpacingDecoration(
-    @Px private val innerSpacing: Int,
-    @Px private val outerSpacing: Int = 0
-) : RecyclerView.ItemDecoration() {
+class LinearHorizontalSpacingDecoration(@Px private val innerSpacing: Int) :
+    RecyclerView.ItemDecoration() {
+
     override fun getItemOffsets(
         outRect: Rect,
-        child: View,
+        view: View,
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val itemPosition = parent.getChildAdapterPosition(child)
-        val itemCount = parent.adapter?.itemCount ?: 0
+        super.getItemOffsets(outRect, view, parent, state)
 
-        outRect.top = 0
-        outRect.bottom = 0
-        outRect.left = if (itemPosition == 0) outerSpacing else innerSpacing / 2
-        outRect.right = if (itemPosition == itemCount - 1) outerSpacing else innerSpacing / 2
+        val itemPosition = parent.getChildAdapterPosition(view)
+
+        outRect.left = if (itemPosition == 0) 0 else innerSpacing / 2
+        outRect.right = if (itemPosition == state.itemCount - 1) 0 else innerSpacing / 2
     }
 }
 

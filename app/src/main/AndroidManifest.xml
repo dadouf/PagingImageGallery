@@ -41,8 +41,11 @@
             android:name=".recyclerview.v1.CarouselActivity"
             android:label="RecyclerView v1" />
         <activity
+            android:name=".recyclerview.v2paging.CarouselActivity"
+            android:label="RecyclerView v2: paging" />
+        <activity
             android:name=".recyclerview.v1width.CarouselActivity"
-            android:label="RecyclerView v1" />
+            android:label="RecyclerView v1: aspect ratio" />
         <activity
             android:name=".recyclerview.v0.CarouselActivity"
             android:label="RecyclerView v0" />
