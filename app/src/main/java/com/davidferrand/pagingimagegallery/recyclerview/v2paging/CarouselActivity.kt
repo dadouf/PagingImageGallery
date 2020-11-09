@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class CarouselActivity : AppCompatActivity() {
 
         val images: ArrayList<Image> =
             intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
+        val position: Int = intent.getIntExtra(GridActivity.EXTRA_POSITION, 0)
 
         layoutManager = LinearLayoutManager(
             this,
@@ -53,6 +55,23 @@ class CarouselActivity : AppCompatActivity() {
         }
 
         snapHelper.attachToRecyclerView(binding.recyclerView)
+
+        initRecyclerViewPosition(position)
+    }
+
+    private fun initRecyclerViewPosition(position: Int) {
+        // This initial scroll will be slightly off because it doesn't respect the SnapHelper.
+        // Do it anyway so that the target view is laid out, then adjust onPreDraw.
+        layoutManager.scrollToPosition(position)
+
+        binding.recyclerView.doOnPreDraw {
+            val targetView = layoutManager.findViewByPosition(position) ?: return@doOnPreDraw
+            val distanceToFinalSnap =
+                snapHelper.calculateDistanceToFinalSnap(layoutManager, targetView)
+                    ?: return@doOnPreDraw
+
+            layoutManager.scrollToPositionWithOffset(position, -distanceToFinalSnap[0])
+        }
     }
 }
 
