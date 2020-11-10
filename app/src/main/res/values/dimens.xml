@@ -3,5 +3,6 @@
     <dimen name="grid_spacing">8dp</dimen>
     <dimen name="carousel_spacing">16dp</dimen>
     <dimen name="prominent_threshold">72dp</dimen>
-    <dimen name="carousel_horizontal_padding_observed">56dp</dimen>
+    <dimen name="rounded_corners_radius">8dp</dimen>
+    <dimen name="gradient_width">56dp</dimen>
 </resources>

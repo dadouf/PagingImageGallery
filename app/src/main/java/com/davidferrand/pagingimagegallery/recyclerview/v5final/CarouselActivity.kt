@@ -20,7 +20,7 @@ import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
 import com.davidferrand.pagingimagegallery.R
 import com.davidferrand.pagingimagegallery.databinding.ActivityCarouselRecyclerviewBinding
-import com.davidferrand.pagingimagegallery.databinding.OverlayableImageViewBinding
+import com.davidferrand.pagingimagegallery.databinding.ViewOverlayableImageBinding
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -248,8 +248,11 @@ internal class ProminentLayoutManager(
             translationXForward = 0f
 
             if (translationXFromScale > 0 && i >= 1) {
+                // Edit previous child
                 getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
+
             } else if (translationXFromScale < 0) {
+                // Pass on to next child
                 translationXForward = 2 * translationXFromScale
             }
         }
@@ -268,7 +271,7 @@ class OverlayableImageView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private val binding = OverlayableImageViewBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = ViewOverlayableImageBinding.inflate(LayoutInflater.from(context), this)
 
     var image: Image? = null
         set(value) {
