@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.davidferrand.pagingimagegallery.databinding.ActivityGridBinding
 
 class GridActivity : AppCompatActivity() {
@@ -182,7 +183,11 @@ class GridAdapter(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val image = images[position]
 
-        Glide.with(holder.imageView).load(image.url).into(holder.imageView)
+        Glide.with(holder.imageView)
+            .load(image.url)
+            .transition(withCrossFade())
+            .into(holder.imageView)
+
         holder.imageView.setOnClickListener {
             onImageClicked(image, position)
         }

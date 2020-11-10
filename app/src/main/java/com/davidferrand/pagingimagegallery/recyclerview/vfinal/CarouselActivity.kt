@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
 import com.davidferrand.pagingimagegallery.R
@@ -283,6 +284,7 @@ class OverlayableImageView @JvmOverloads constructor(
             value?.let {
                 Glide.with(binding.imageView)
                     .load(it.url)
+                    .transition(withCrossFade())
                     .transform(
                         FitCenter(),
                         RoundedCorners(resources.getDimensionPixelSize(R.dimen.rounded_corners_radius))
