@@ -77,7 +77,6 @@ internal class CarouselAdapter(private val images: List<Image>) :
         })
     }
 
-    @Suppress("UnnecessaryVariable")
     override fun onBindViewHolder(vh: VH, position: Int) {
         val image = images[position]
 

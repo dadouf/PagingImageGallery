@@ -167,7 +167,7 @@ internal class CarouselAdapter(private val images: List<Image>) :
             targetImageHeight = (maxImageWidth / imageAspectRatio).roundToInt()
         }
 
-        vh.imageView.layoutParams = RecyclerView.LayoutParams(
+        vh.itemView.layoutParams = RecyclerView.LayoutParams(
             targetImageWidth,
             targetImageHeight
         ).apply {

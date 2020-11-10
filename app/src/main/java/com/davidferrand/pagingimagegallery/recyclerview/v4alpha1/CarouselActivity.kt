@@ -49,8 +49,8 @@ class CarouselActivity : AppCompatActivity() {
             adapter = this@CarouselActivity.adapter
 
             val spacing = resources.getDimensionPixelSize(R.dimen.carousel_spacing)
-            addItemDecoration(BoundsOffsetDecoration())
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
+            addItemDecoration(BoundsOffsetDecoration())
         }
 
         snapHelper.attachToRecyclerView(binding.recyclerView)
@@ -158,7 +158,7 @@ internal class CarouselAdapter(private val images: List<Image>) :
         Glide.with(vh.imageView).load(image.url).into(vh.imageView)
 
         vh.imageView.setOnClickListener {
-            val rv = vh.imageView.parent as RecyclerView
+            val rv = vh.itemView.parent as RecyclerView
             rv.smoothScrollToPosition(position)
         }
     }
@@ -191,7 +191,6 @@ internal class ProminentLayoutManager(
     override fun onLayoutCompleted(state: RecyclerView.State?) =
         super.onLayoutCompleted(state).also { scaleChildren() }
 
-
     override fun scrollHorizontallyBy(
         dx: Int,
         recycler: RecyclerView.Recycler,
@@ -222,7 +221,7 @@ internal class ProminentLayoutManager(
 
             val translationDirection = if (childCenter > containerCenter) -1 else 1
             val translationXFromScale = translationDirection * child.width * (1 - scale) / 2f
-            child.translationX = translationXForward + translationXFromScale
+            child.translationX = translationXFromScale + translationXForward
 
             translationXForward = 0f
 

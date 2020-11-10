@@ -30,11 +30,7 @@ class CarouselActivity : AppCompatActivity() {
         val images: ArrayList<Image> =
             intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
 
-        layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapter = CarouselAdapter(images)
 
         with(binding.recyclerView) {

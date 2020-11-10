@@ -48,8 +48,8 @@ class CarouselActivity : AppCompatActivity() {
             adapter = this@CarouselActivity.adapter
 
             val spacing = resources.getDimensionPixelSize(R.dimen.carousel_spacing)
-            addItemDecoration(BoundsOffsetDecoration())
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
+            addItemDecoration(BoundsOffsetDecoration())
         }
 
         snapHelper.attachToRecyclerView(binding.recyclerView)
@@ -184,7 +184,6 @@ internal class ProminentLayoutManager(
 
     override fun onLayoutCompleted(state: RecyclerView.State?) =
         super.onLayoutCompleted(state).also { scaleChildren() }
-
 
     override fun scrollHorizontallyBy(
         dx: Int,

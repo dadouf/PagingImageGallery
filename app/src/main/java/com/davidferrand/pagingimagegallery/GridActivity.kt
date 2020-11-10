@@ -30,6 +30,10 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.vfinal.CarouselActivity::class.java
         ),
         CarouselImplementation(
+            "v5-final: show overlay when prominent",
+            com.davidferrand.pagingimagegallery.recyclerview.v5final.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
             "v4-alpha2: tap to scroll to center",
             com.davidferrand.pagingimagegallery.recyclerview.v4alpha2.CarouselActivity::class.java
         ),

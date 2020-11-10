@@ -37,11 +37,7 @@ class CarouselActivity : AppCompatActivity() {
             intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
         val position: Int = intent.getIntExtra(GridActivity.EXTRA_POSITION, 0)
 
-        layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapter = CarouselAdapter(images)
         snapHelper = PagerSnapHelper()
 

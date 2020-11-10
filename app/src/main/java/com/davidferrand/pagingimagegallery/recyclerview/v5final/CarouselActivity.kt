@@ -1,24 +1,26 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v3final
+package com.davidferrand.pagingimagegallery.recyclerview.v5final
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnPreDraw
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.isInvisible
+import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import androidx.recyclerview.widget.SnapHelper
 import com.bumptech.glide.Glide
 import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
 import com.davidferrand.pagingimagegallery.R
 import com.davidferrand.pagingimagegallery.databinding.ActivityCarouselRecyclerviewBinding
+import com.davidferrand.pagingimagegallery.databinding.OverlayableImageViewBinding
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -134,7 +136,7 @@ internal class CarouselAdapter(private val images: List<Image>) :
             hasInitParentDimensions = true
         }
 
-        return VH(ImageView(parent.context))
+        return VH(OverlayableImageView(parent.context))
     }
 
     override fun onBindViewHolder(vh: VH, position: Int) {
@@ -149,18 +151,38 @@ internal class CarouselAdapter(private val images: List<Image>) :
             // Wide image: width = max
             maxImageWidth
         }
-        vh.imageView.layoutParams = RecyclerView.LayoutParams(
+        vh.overlayableImageView.layoutParams = RecyclerView.LayoutParams(
             targetImageWidth,
             RecyclerView.LayoutParams.MATCH_PARENT
         )
 
         // Load image
-        Glide.with(vh.imageView).load(image.url).into(vh.imageView)
+        vh.overlayableImageView.image = image
+
+        vh.overlayableImageView.setOnClickListener {
+            val rv = vh.overlayableImageView.parent as RecyclerView
+            rv.smoothScrollToCenteredPosition(position)
+        }
     }
 
     override fun getItemCount(): Int = images.size
 
-    class VH(val imageView: ImageView) : RecyclerView.ViewHolder(imageView)
+    class VH(val overlayableImageView: OverlayableImageView) :
+        RecyclerView.ViewHolder(overlayableImageView)
+}
+
+private fun RecyclerView.smoothScrollToCenteredPosition(position: Int) {
+    val smoothScroller = object : LinearSmoothScroller(context) {
+        override fun calculateDxToMakeVisible(view: View?, snapPreference: Int): Int {
+            val dxToStart = super.calculateDxToMakeVisible(view, SNAP_TO_START)
+            val dxToEnd = super.calculateDxToMakeVisible(view, SNAP_TO_END)
+
+            return (dxToStart + dxToEnd) / 2
+        }
+    }
+
+    smoothScroller.targetPosition = position
+    layoutManager?.startSmoothScroll(smoothScroller)
 }
 
 
@@ -182,6 +204,9 @@ internal class ProminentLayoutManager(
     /** The final (minimum) scale for non-prominent items is 1-[scaleDownBy] */
     private val scaleDownBy: Float = 0.5f
 ) : LinearLayoutManager(context, HORIZONTAL, false) {
+
+    private val prominentThreshold =
+        context.resources.getDimensionPixelSize(R.dimen.prominent_threshold)
 
     override fun onLayoutCompleted(state: RecyclerView.State?) =
         super.onLayoutCompleted(state).also { scaleChildren() }
@@ -208,6 +233,8 @@ internal class ProminentLayoutManager(
             val childCenter = (child.left + child.right) / 2f
             val distanceToCenter = abs(childCenter - containerCenter)
 
+            child.isActivated = distanceToCenter < prominentThreshold
+
             val scaleDownAmount = (distanceToCenter / scaleDistanceThreshold).coerceAtMost(1f)
             val scale = 1f - scaleDownBy * scaleDownAmount
 
@@ -232,5 +259,36 @@ internal class ProminentLayoutManager(
         // Since we're scaling down items, we need to pre-load more of them offscreen.
         // The value is sort of empirical: the more we scale down, the more extra space we need.
         return (width / (1 - scaleDownBy)).roundToInt()
+    }
+}
+
+class OverlayableImageView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    private val binding = OverlayableImageViewBinding.inflate(LayoutInflater.from(context), this)
+
+    var image: Image? = null
+        set(value) {
+            field = value
+            value?.let { Glide.with(binding.imageView).load(it.url).into(binding.imageView) }
+        }
+
+
+    init {
+        layoutTransition = LayoutTransition() // android:animateLayoutChanges="true"
+        isActivated = false
+    }
+
+    override fun setActivated(activated: Boolean) {
+        val isChanging = activated != isActivated
+        super.setActivated(activated)
+
+        if (isChanging) {
+            // Switch between VISIBLE and INVISIBLE
+            binding.sendButton.isInvisible = !activated
+        }
     }
 }
