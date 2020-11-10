@@ -25,7 +25,7 @@
 
         <activity android:name=".recyclerview.vfinal.CarouselActivity" />
         <activity android:name=".recyclerview.v5final.CarouselActivity" />
-        <activity android:name=".recyclerview.v4alpha2.CarouselActivity" />
+        <activity android:name=".recyclerview.v4final.CarouselActivity" />
         <activity android:name=".recyclerview.v4alpha1.CarouselActivity" />
         <activity android:name=".recyclerview.v3final.CarouselActivity" />
         <activity android:name=".recyclerview.v3alpha3.CarouselActivity" />

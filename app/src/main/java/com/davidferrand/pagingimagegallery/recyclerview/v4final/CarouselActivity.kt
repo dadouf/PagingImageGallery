@@ -1,4 +1,4 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v4alpha2
+package com.davidferrand.pagingimagegallery.recyclerview.v4final
 
 import android.content.Context
 import android.graphics.Rect

@@ -35,51 +35,51 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.v5final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v4-alpha2: tap to scroll to center",
-            com.davidferrand.pagingimagegallery.recyclerview.v4alpha2.CarouselActivity::class.java
+            "v4-final: tap to scroll to center",
+            com.davidferrand.pagingimagegallery.recyclerview.v4final.CarouselActivity::class.java
         ),
         CarouselImplementation(
             "v4-alpha1: tap to scroll",
             com.davidferrand.pagingimagegallery.recyclerview.v4alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v3-final: pre-load more items",
+            "v3-final: scale animation, pre-load extra items",
             com.davidferrand.pagingimagegallery.recyclerview.v3final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v3-alpha3: maintain even spacing better",
+            "v3-alpha3: scale animation, maintain spacing better",
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha3.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v3-alpha2: maintain even spacing",
+            "v3-alpha2: scale animation, maintain spacing",
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha2.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v3-alpha1: add shrink/grow animation",
+            "v3-alpha1: scale animation",
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v2-final: add paging, fix initial scroll",
+            "v2-final: paging, fix initial scroll",
             com.davidferrand.pagingimagegallery.recyclerview.v2final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v2-alpha2: add paging, center first/last items",
+            "v2-alpha2: paging, center first/last items",
             com.davidferrand.pagingimagegallery.recyclerview.v2alpha2.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v2-alpha1: add paging",
+            "v2-alpha1: paging",
             com.davidferrand.pagingimagegallery.recyclerview.v2alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v1-final: respect ratio, limited fixed width",
+            "v1-final: aspect ratio, limited fixed width",
             com.davidferrand.pagingimagegallery.recyclerview.v1final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v1-alpha2: respect ratio, fixed width",
+            "v1-alpha2: aspect ratio, fixed width",
             com.davidferrand.pagingimagegallery.recyclerview.v1alpha2.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v1-alpha1: respect ratio, width=wrap_content",
+            "v1-alpha1: aspect ratio, width=wrap_content",
             com.davidferrand.pagingimagegallery.recyclerview.v1alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
