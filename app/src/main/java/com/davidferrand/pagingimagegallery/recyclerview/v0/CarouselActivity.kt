@@ -26,14 +26,12 @@ class CarouselActivity : AppCompatActivity() {
         binding = ActivityCarouselRecyclerviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val images: ArrayList<Image> =
-            intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
+        supportActionBar?.title = intent.getStringExtra(GridActivity.EXTRA_TITLE)
 
-        layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        val images: ArrayList<Image> = intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES)
+            ?: ArrayList()
+
+        layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapter = CarouselAdapter(images)
 
         with(binding.recyclerView) {

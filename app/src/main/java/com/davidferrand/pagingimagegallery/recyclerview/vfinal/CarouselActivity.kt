@@ -41,8 +41,10 @@ class CarouselActivity : AppCompatActivity() {
         binding = ActivityCarouselRecyclerviewWithGradientsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val images: ArrayList<Image> =
-            intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES) ?: ArrayList()
+        supportActionBar?.title = intent.getStringExtra(GridActivity.EXTRA_TITLE)
+
+        val images: ArrayList<Image> = intent.getParcelableArrayListExtra(GridActivity.EXTRA_IMAGES)
+            ?: ArrayList()
         val position: Int = intent.getIntExtra(GridActivity.EXTRA_POSITION, 0)
 
         layoutManager = ProminentLayoutManager(this)

@@ -18,6 +18,7 @@ import com.davidferrand.pagingimagegallery.databinding.ActivityGridBinding
 
 class GridActivity : AppCompatActivity() {
     companion object {
+        const val EXTRA_TITLE = "EXTRA_TITLE"
         const val EXTRA_POSITION = "EXTRA_POSITION"
         const val EXTRA_IMAGES = "EXTRA_IMAGES"
     }
@@ -25,7 +26,6 @@ class GridActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGridBinding
 
     private val implementations = listOf(
-        // TODO pass title forward
         CarouselImplementation(
             "vfinal",
             com.davidferrand.pagingimagegallery.recyclerview.vfinal.CarouselActivity::class.java
@@ -59,15 +59,19 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v2: paging",
+            "v2-final: paging",
             com.davidferrand.pagingimagegallery.recyclerview.v2final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v1: aspect ratio",
+            "v1-final: aspect ratio",
             com.davidferrand.pagingimagegallery.recyclerview.v1final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v0: naive implementation",
+            "v1-alpha1: aspect ratio handling with wrap_content",
+            com.davidferrand.pagingimagegallery.recyclerview.v1alpha1.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v0: basic implementation",
             com.davidferrand.pagingimagegallery.recyclerview.v0.CarouselActivity::class.java
         )
     )
@@ -117,6 +121,7 @@ class GridActivity : AppCompatActivity() {
         binding.recyclerView.swapAdapter(GridAdapter(images) { _, position ->
             startActivity(
                 Intent(this@GridActivity, selectedImplementation.clazz)
+                    .putExtra(EXTRA_TITLE, selectedImplementation.label)
                     .putParcelableArrayListExtra(EXTRA_IMAGES, images)
                     .putExtra(EXTRA_POSITION, position)
             )

@@ -1,4 +1,4 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v1final
+package com.davidferrand.pagingimagegallery.recyclerview.v1alpha1
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -14,7 +14,6 @@ import com.davidferrand.pagingimagegallery.GridActivity
 import com.davidferrand.pagingimagegallery.Image
 import com.davidferrand.pagingimagegallery.R
 import com.davidferrand.pagingimagegallery.databinding.ActivityCarouselRecyclerviewBinding
-import kotlin.math.roundToInt
 
 class CarouselActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCarouselRecyclerviewBinding
@@ -67,41 +66,18 @@ class LinearHorizontalSpacingDecoration(@Px private val innerSpacing: Int) :
 internal class CarouselAdapter(private val images: List<Image>) :
     RecyclerView.Adapter<CarouselAdapter.VH>() {
 
-    private var hasInitParentDimensions = false
-    private var maxImageWidth: Int = 0
-    private var maxImageHeight: Int = 0
-    private var maxImageAspectRatio: Float = 1f
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        // At this point [parent] has been measured and has valid width & height
-        if (!hasInitParentDimensions) {
-            maxImageWidth = (parent.width * 0.75f).roundToInt()
-            maxImageHeight = parent.height
-            maxImageAspectRatio = maxImageWidth.toFloat() / maxImageHeight.toFloat()
-            hasInitParentDimensions = true
-        }
-
-        return VH(ImageView(parent.context))
+        return VH(ImageView(parent.context).apply {
+            layoutParams = RecyclerView.LayoutParams(
+                RecyclerView.LayoutParams.WRAP_CONTENT,
+                RecyclerView.LayoutParams.MATCH_PARENT
+            )
+        })
     }
 
     override fun onBindViewHolder(vh: VH, position: Int) {
         val image = images[position]
 
-        // Change aspect ratio
-        val imageAspectRatio = image.aspectRatio
-        val targetImageWidth: Int = if (imageAspectRatio < maxImageAspectRatio) {
-            // Tall image: height = max
-            (maxImageHeight * imageAspectRatio).roundToInt()
-        } else {
-            // Wide image: width = max
-            maxImageWidth
-        }
-        vh.imageView.layoutParams = RecyclerView.LayoutParams(
-            targetImageWidth,
-            RecyclerView.LayoutParams.MATCH_PARENT
-        )
-
-        // Load image
         Glide.with(vh.imageView).load(image.url).into(vh.imageView)
     }
 
