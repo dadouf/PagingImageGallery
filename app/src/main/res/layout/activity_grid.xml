@@ -28,12 +28,21 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@android:layout/simple_dropdown_item_1line" />
 
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Tap an image to open the carousel"
+        app:layout_constraintTop_toBottomOf="@id/detail_selector" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_selector"
+        app:layout_constraintTop_toBottomOf="@id/instruction"
         tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/item_grid_image"
         tools:spanCount="5">

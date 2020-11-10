@@ -51,7 +51,7 @@ class CarouselActivity : AppCompatActivity() {
         adapter = CarouselAdapter(images)
         snapHelper = PagerSnapHelper()
 
-        with(binding.recyclerViewLayout.recyclerView) {
+        with(binding.recyclerView) {
             setItemViewCacheSize(4)
             layoutManager = this@CarouselActivity.layoutManager
             adapter = this@CarouselActivity.adapter
@@ -71,7 +71,7 @@ class CarouselActivity : AppCompatActivity() {
         // Do it anyway so that the target view is laid out, then adjust onPreDraw.
         layoutManager.scrollToPosition(position)
 
-        binding.recyclerViewLayout.recyclerView.doOnPreDraw {
+        binding.recyclerView.doOnPreDraw {
             val targetView = layoutManager.findViewByPosition(position) ?: return@doOnPreDraw
             val distanceToFinalSnap =
                 snapHelper.calculateDistanceToFinalSnap(layoutManager, targetView)
