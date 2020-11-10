@@ -22,23 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".recyclerview.vfinal.CarouselActivity"
-            android:label="vfinal" />
-        <activity
-            android:name=".recyclerview.v3alpha2.CarouselActivity"
-            android:label="v3: maintain spacing" />
-        <activity
-            android:name=".recyclerview.v3alpha1.CarouselActivity"
-            android:label="v3: shrink/grow" />
-        <activity
-            android:name=".recyclerview.v2final.CarouselActivity"
-            android:label="v2: paging" />
-        <activity
-            android:name=".recyclerview.v1final.CarouselActivity"
-            android:label="v1: aspect ratio" />
-        <activity
-            android:name=".recyclerview.v0.CarouselActivity"
-            android:label="v0" />
+
+        <activity android:name=".recyclerview.vfinal.CarouselActivity" />
+        <activity android:name=".recyclerview.v3final.CarouselActivity" />
+        <activity android:name=".recyclerview.v3alpha3.CarouselActivity" />
+        <activity android:name=".recyclerview.v3alpha2.CarouselActivity" />
+        <activity android:name=".recyclerview.v3alpha1.CarouselActivity" />
+        <activity android:name=".recyclerview.v2final.CarouselActivity" />
+        <activity android:name=".recyclerview.v1final.CarouselActivity" />
+        <activity android:name=".recyclerview.v0.CarouselActivity" />
     </application>
 </manifest>

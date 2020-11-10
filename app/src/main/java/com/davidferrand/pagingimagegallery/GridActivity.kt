@@ -29,7 +29,15 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.vfinal.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v3-alpha2: maintain spacing",
+            "v3-final: pre-load more items",
+            com.davidferrand.pagingimagegallery.recyclerview.v3final.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v3-alpha3: maintain even spacing better",
+            com.davidferrand.pagingimagegallery.recyclerview.v3alpha3.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v3-alpha2: maintain even spacing",
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha2.CarouselActivity::class.java
         ),
         CarouselImplementation(

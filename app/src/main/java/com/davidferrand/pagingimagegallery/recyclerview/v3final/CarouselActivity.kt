@@ -1,4 +1,4 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v3alpha2
+package com.davidferrand.pagingimagegallery.recyclerview.v3final
 
 import android.content.Context
 import android.graphics.Rect
@@ -45,6 +45,7 @@ class CarouselActivity : AppCompatActivity() {
         snapHelper = PagerSnapHelper()
 
         with(binding.recyclerView) {
+            setItemViewCacheSize(4)
             layoutManager = this@CarouselActivity.layoutManager
             adapter = this@CarouselActivity.adapter
 
@@ -205,6 +206,8 @@ internal class ProminentLayoutManager(
         // Any view further than this threshold will be fully scaled down
         val scaleDistanceThreshold = minScaleDistanceFactor * containerCenter
 
+        var translationXForward = 0f
+
         for (i in 0 until childCount) {
             val child = getChildAt(i)!!
 
@@ -219,8 +222,21 @@ internal class ProminentLayoutManager(
 
             val translationDirection = if (childCenter > containerCenter) -1 else 1
             val translationXFromScale = translationDirection * child.width * (1 - scale) / 2f
-            child.translationX = translationXFromScale
+            child.translationX = translationXForward + translationXFromScale
 
+            translationXForward = 0f
+
+            if (translationXFromScale > 0 && i >= 1) {
+                getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
+            } else if (translationXFromScale < 0) {
+                translationXForward = 2 * translationXFromScale
+            }
         }
+    }
+
+    override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
+        // Since we're scaling down items, we need to pre-load more of them offscreen.
+        // The value is sort of empirical: the more we scale down, the more extra space we need.
+        return (width / (1 - scaleDownBy)).roundToInt()
     }
 }

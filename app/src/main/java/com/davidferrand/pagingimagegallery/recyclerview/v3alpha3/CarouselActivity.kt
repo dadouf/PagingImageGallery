@@ -1,4 +1,4 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v3alpha2
+package com.davidferrand.pagingimagegallery.recyclerview.v3alpha3
 
 import android.content.Context
 import android.graphics.Rect
@@ -205,6 +205,8 @@ internal class ProminentLayoutManager(
         // Any view further than this threshold will be fully scaled down
         val scaleDistanceThreshold = minScaleDistanceFactor * containerCenter
 
+        var translationXForward = 0f
+
         for (i in 0 until childCount) {
             val child = getChildAt(i)!!
 
@@ -219,8 +221,15 @@ internal class ProminentLayoutManager(
 
             val translationDirection = if (childCenter > containerCenter) -1 else 1
             val translationXFromScale = translationDirection * child.width * (1 - scale) / 2f
-            child.translationX = translationXFromScale
+            child.translationX = translationXForward + translationXFromScale
 
+            translationXForward = 0f
+
+            if (translationXFromScale > 0 && i >= 1) {
+                getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
+            } else if (translationXFromScale < 0) {
+                translationXForward = 2 * translationXFromScale
+            }
         }
     }
 }
