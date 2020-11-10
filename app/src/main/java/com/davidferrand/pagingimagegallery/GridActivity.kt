@@ -59,15 +59,27 @@ class GridActivity : AppCompatActivity() {
             com.davidferrand.pagingimagegallery.recyclerview.v3alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v2-final: paging",
+            "v2-final: add paging, fix initial scroll",
             com.davidferrand.pagingimagegallery.recyclerview.v2final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v1-final: aspect ratio",
+            "v2-alpha2: add paging, center first/last items",
+            com.davidferrand.pagingimagegallery.recyclerview.v2alpha2.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v2-alpha1: add paging",
+            com.davidferrand.pagingimagegallery.recyclerview.v2alpha1.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v1-final: respect ratio, limited fixed width",
             com.davidferrand.pagingimagegallery.recyclerview.v1final.CarouselActivity::class.java
         ),
         CarouselImplementation(
-            "v1-alpha1: aspect ratio handling with wrap_content",
+            "v1-alpha2: respect ratio, fixed width",
+            com.davidferrand.pagingimagegallery.recyclerview.v1alpha2.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v1-alpha1: respect ratio, width=wrap_content",
             com.davidferrand.pagingimagegallery.recyclerview.v1alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
