@@ -24,9 +24,18 @@ class GridActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGridBinding
 
     private val implementations = listOf(
+        // TODO pass title forward
         CarouselImplementation(
             "vfinal",
             com.davidferrand.pagingimagegallery.recyclerview.vfinal.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v4-alpha2: tap to scroll to center",
+            com.davidferrand.pagingimagegallery.recyclerview.v4alpha2.CarouselActivity::class.java
+        ),
+        CarouselImplementation(
+            "v4-alpha1: tap to scroll",
+            com.davidferrand.pagingimagegallery.recyclerview.v4alpha1.CarouselActivity::class.java
         ),
         CarouselImplementation(
             "v3-final: pre-load more items",

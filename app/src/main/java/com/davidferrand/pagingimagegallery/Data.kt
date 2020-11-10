@@ -4,6 +4,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 object Data {
+    /**
+     * Mix of images with varying aspect ratios
+     */
     val images = listOf(
         Image("https://media2.giphy.com/media/ZEBoAmoK5NVNso29xo/200.gif", 356, 200),
         Image("https://media3.giphy.com/media/W6XOLBwKcMyCeTtO3e/200.gif", 200, 200),
@@ -29,7 +32,17 @@ object Data {
         Image("https://media1.giphy.com/media/3o84syshVj2Iq8Mf04/200.gif", 356, 200),
         Image("https://media0.giphy.com/media/DrhMpwvQlIxGw/200.gif", 185, 200),
         Image("https://media0.giphy.com/media/lqpfJwb30kkVymm1W8/200.gif", 200, 200),
-        Image("https://media2.giphy.com/media/3o84soHWYqD1G8AL5K/200.gif", 356, 200)
+        Image("https://media2.giphy.com/media/3o84soHWYqD1G8AL5K/200.gif", 356, 200),
+        Image("https://media1.giphy.com/media/l4Jz7HEKl2yGbjzWg/200.gif", 150, 200),
+        Image("https://media3.giphy.com/media/FbxIwpLxkNFXW/200.gif", 138, 200),
+        Image("https://media3.giphy.com/media/iCjhRTjzokCje/200.gif", 200, 200),
+        Image("https://media1.giphy.com/media/YplSkqtJGgj8VAPqir/200.gif", 143, 200),
+        Image("https://media4.giphy.com/media/lcyaEwgNvvoFzpnfDp/200.gif", 152, 200),
+        Image("https://media2.giphy.com/media/EO233xYajs99u/200.gif", 156, 200),
+        Image("https://media1.giphy.com/media/GCvktC0KFy9l6/200.gif", 188, 200),
+        Image("https://media2.giphy.com/media/kiBcwEXegBTACmVOnE/200.gif", 160, 200),
+        Image("https://media0.giphy.com/media/1uLQUtPLbJMQ0/200.gif", 146, 200),
+        Image("https://media4.giphy.com/media/2csuIJj6TmuKA/200.gif", 143, 200),
     )
 }
 

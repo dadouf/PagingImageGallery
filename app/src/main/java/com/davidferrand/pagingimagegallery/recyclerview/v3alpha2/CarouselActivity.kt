@@ -3,7 +3,6 @@ package com.davidferrand.pagingimagegallery.recyclerview.v3alpha2
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -156,10 +155,6 @@ internal class CarouselAdapter(private val images: List<Image>) :
 
         // Load image
         Glide.with(vh.imageView).load(image.url).into(vh.imageView)
-
-        vh.imageView.setOnClickListener {
-            Log.wtf("wtf", "wtf")
-        }
     }
 
     override fun getItemCount(): Int = images.size

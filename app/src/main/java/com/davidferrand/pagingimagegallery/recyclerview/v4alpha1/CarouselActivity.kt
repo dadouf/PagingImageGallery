@@ -1,4 +1,4 @@
-package com.davidferrand.pagingimagegallery.recyclerview.v3alpha1
+package com.davidferrand.pagingimagegallery.recyclerview.v4alpha1
 
 import android.content.Context
 import android.graphics.Rect
@@ -44,6 +44,7 @@ class CarouselActivity : AppCompatActivity() {
         snapHelper = PagerSnapHelper()
 
         with(binding.recyclerView) {
+            setItemViewCacheSize(4)
             layoutManager = this@CarouselActivity.layoutManager
             adapter = this@CarouselActivity.adapter
 
@@ -155,6 +156,11 @@ internal class CarouselAdapter(private val images: List<Image>) :
 
         // Load image
         Glide.with(vh.imageView).load(image.url).into(vh.imageView)
+
+        vh.imageView.setOnClickListener {
+            val rv = vh.imageView.parent as RecyclerView
+            rv.smoothScrollToPosition(position)
+        }
     }
 
     override fun getItemCount(): Int = images.size
@@ -200,6 +206,8 @@ internal class ProminentLayoutManager(
         // Any view further than this threshold will be fully scaled down
         val scaleDistanceThreshold = minScaleDistanceFactor * containerCenter
 
+        var translationXForward = 0f
+
         for (i in 0 until childCount) {
             val child = getChildAt(i)!!
 
@@ -211,6 +219,24 @@ internal class ProminentLayoutManager(
 
             child.scaleX = scale
             child.scaleY = scale
+
+            val translationDirection = if (childCenter > containerCenter) -1 else 1
+            val translationXFromScale = translationDirection * child.width * (1 - scale) / 2f
+            child.translationX = translationXForward + translationXFromScale
+
+            translationXForward = 0f
+
+            if (translationXFromScale > 0 && i >= 1) {
+                getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
+            } else if (translationXFromScale < 0) {
+                translationXForward = 2 * translationXFromScale
+            }
         }
+    }
+
+    override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
+        // Since we're scaling down items, we need to pre-load more of them offscreen.
+        // The value is sort of empirical: the more we scale down, the more extra space we need.
+        return (width / (1 - scaleDownBy)).roundToInt()
     }
 }
