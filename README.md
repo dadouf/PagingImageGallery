@@ -1,3 +1,7 @@
-Structure / How to read this code:
-- All implementations exist simultaneously, without needing to change branches. They're grouped into two packages: `recyclerview` and `viewpager`.
-- Within a group, each version is a different package: `v1`, `v2`, ..., `vfinal`. Since each version contains its own full CarouselActivity, you can easily compare one implementation with another.
+## Paging Image Gallery
+
+![Final implementation](vfinal.gif)
+
+Companion app to https://medium.com/@ferrand.d/paging-image-gallery-with-recyclerview-f059d035b7e7
+
+This shows the step-by-step construction of a Paging Image Gallery using RecyclerView. All implementations exist [side by side](app/src/main/java/com/davidferrand/pagingimagegallery/recyclerview) so you can easily compare them.
